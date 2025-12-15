@@ -78,7 +78,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         // Destroy the enemy object
-        Destroy(gameObject);
+        LevelManager.instance.AddCurrency(10);
     }
 
     // Optional: Draw a line to the target in the editor for easy debugging
