@@ -4,7 +4,7 @@ using TMPro; // Adăugat pentru a putea modifica textul butonului (opțional)
 
 public class ShopManager : MonoBehaviour
 {
-    public Turret turret; // Trage obiectul Turret din scenă aici
+    public TurretController turret; // Trage obiectul Turret din scenă aici
 
     [Header("Referinte UI Butoane")]
     public Button damageButton;   // Trage Button_Damage
@@ -66,7 +66,7 @@ public class ShopManager : MonoBehaviour
     {
         if (LevelManager.instance.SpendCurrency(damageCost))
         {
-            turret.turretDamage += 1;
+            turret.damage += 1;
             damageCost += 25;
             Debug.Log("Damage Upgraded!");
         }

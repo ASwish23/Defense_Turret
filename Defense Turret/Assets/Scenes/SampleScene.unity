@@ -128,8 +128,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 85251223}
-  m_Layer: 0
-  m_Name: FirePoint
+  m_Layer: 6
+  m_Name: FirePoint_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 85251222}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.51, y: 2.81, z: 0}
+  m_LocalPosition: {x: -2.39, y: 1.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0abcfddb64d6e234dae097a6452256ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
-  turret: {fileID: 1316581256}
+  turret: {fileID: 1316581259}
   damageButton: {fileID: 1138388418}
   fireRateButton: {fileID: 1836214541}
   rangeButton: {fileID: 1808465681}
@@ -268,14 +268,14 @@ MonoBehaviour:
   timeBetweenWaves: 10
   waves:
   - waveName: Wave 1
-    enemyCount: 5
-    spawnRate: 0.5
-  - waveName: Wave 1
     enemyCount: 10
-    spawnRate: 1
-  - waveName: Wave 1
+    spawnRate: 3
+  - waveName: Wave 2
+    enemyCount: 10
+    spawnRate: 2.5
+  - waveName: Wave 3
     enemyCount: 20
-    spawnRate: 1.2
+    spawnRate: 2
   spawnPoints:
   - {fileID: 1617290615}
   - {fileID: 1914025701}
@@ -283,6 +283,7 @@ MonoBehaviour:
   - {fileID: 968851533}
   - {fileID: 2094913536}
   - {fileID: 2037327685}
+  timeBetweenSpawns: 3
 --- !u!1 &347885853
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,6 +1192,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1052680526}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &975232324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 975232325}
+  m_Layer: 6
+  m_Name: FirePoint_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &975232325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975232324}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.39, y: 1.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1316581258}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1052680525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,6 +1346,18 @@ MonoBehaviour:
       - m_Target: {fileID: 111096530}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: BuyDamageUpgrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1316581259}
+        m_TargetAssemblyTypeName: TurretController, Assembly-CSharp
+        m_MethodName: ActivateDoubleShot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1553,35 +1597,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1316581258}
   - component: {fileID: 1316581257}
-  - component: {fileID: 1316581256}
-  m_Layer: 0
+  - component: {fileID: 1316581259}
+  m_Layer: 6
   m_Name: Turret
   m_TagString: Turret
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1316581256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1316581255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57dbc7cc496b4754fb46dbc9243a185e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Turret
-  turretDamage: 1
-  range: 10
-  fireRate: 1
-  enemyTag: Enemy
-  partToRotate: {fileID: 1316581258}
-  firePoint: {fileID: 85251223}
-  bulletPrefab: {fileID: 7020796720809484020, guid: bd01c39441f318c45847f65b217521ac, type: 3}
-  rocketPrefab: {fileID: 7020796720809484020, guid: bd01c39441f318c45847f65b217521ac, type: 3}
-  hasRockets: 0
 --- !u!212 &1316581257
 SpriteRenderer:
   serializedVersion: 2
@@ -1650,13 +1673,37 @@ Transform:
   m_GameObject: {fileID: 1316581255}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.1, y: -0.86, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 85251223}
+  - {fileID: 975232325}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1316581259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316581255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2ed87ec7e3faf44ab302f62bdd8fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretController
+  range: 15
+  fireRate: 1
+  enemyTag: Enemy
+  partToRotate: {fileID: 1316581258}
+  bulletPrefab: {fileID: 7020796720809484020, guid: bd01c39441f318c45847f65b217521ac, type: 3}
+  firePoint1: {fileID: 85251223}
+  firePoint2: {fileID: 975232325}
+  turretRenderer: {fileID: 1316581257}
+  level2Sprite: {fileID: 396732735775326835, guid: 36887de0e16d69a48a24b3932b338822, type: 3}
+  hasRockets: 0
+  damage: 10
 --- !u!1 &1350514056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1701,7 +1748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c5b39f622d613c49a56c47ecfa5a48b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  currentCurrency: 0
+  currentCurrency: 1000
   currencyText: {fileID: 0}
 --- !u!1 &1443399552
 GameObject:
@@ -2284,7 +2331,7 @@ Transform:
   m_GameObject: {fileID: 1973461012}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.76, y: 1.68, z: 1}
+  m_LocalPosition: {x: 0.22, y: 0.59, z: 1}
   m_LocalScale: {x: 2.0324, y: 2.0324, z: 2.0324}
   m_ConstrainProportionsScale: 1
   m_Children: []

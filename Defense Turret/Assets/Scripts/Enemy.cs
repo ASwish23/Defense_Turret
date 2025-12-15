@@ -79,6 +79,7 @@ public class Enemy : MonoBehaviour
     {
         // Destroy the enemy object
         LevelManager.instance.AddCurrency(10);
+        Destroy(gameObject);
     }
 
     // Optional: Draw a line to the target in the editor for easy debugging

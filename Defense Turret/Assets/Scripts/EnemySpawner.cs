@@ -22,6 +22,7 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Spawn Area")]
     public Transform[] spawnPoints;     // The 6 spawn points you created
+    public float timeBetweenSpawns = 2.0f; // Default to 2 seconds
 
     private int currentWaveIndex = 0;
     private bool spawningActive = true;
@@ -44,8 +45,7 @@ public class EnemySpawner : MonoBehaviour
 
                 SpawnRandomEnemy();
 
-                // Wait for the next spawn
-                yield return new WaitForSeconds(1f / currentWave.spawnRate);
+                yield return new WaitForSeconds(timeBetweenSpawns); // Waits for your variable amount
             }
 
             Debug.Log($"Wave finished! Resting for {timeBetweenWaves} seconds.");

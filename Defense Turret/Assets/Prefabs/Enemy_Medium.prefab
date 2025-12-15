@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5383569249231952239}
   - component: {fileID: 8837489652744323391}
   - component: {fileID: 6518785800683470757}
+  - component: {fileID: 4900791456912750130}
   m_Layer: 0
   m_Name: Enemy_Medium
   m_TagString: Enemy
@@ -141,5 +142,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504527407eeb2034b9c624e58b2c146f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  speed: 2.5
-  maxHealth: 5
+  speed: 1.5
+  maxHealth: 2
+--- !u!114 &4900791456912750130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6501148463116505276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1270147e3d3ae4c48bae4541e5607444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  currentHealth: 2
