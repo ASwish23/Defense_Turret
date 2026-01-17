@@ -1,51 +1,39 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Attributes")]
     public float speed = 3f;
-
-    // Health variables
     public int maxHealth = 3;
-    private int currentHealth;
 
-    private Transform turretTarget = null; // The Turret object is always the target
+    // Private variables
+    private int currentHealth;
+    private Transform turretTarget = null;
     private Animator anim;
 
     void Start()
     {
         currentHealth = maxHealth;
         FindTarget();
-        anim = GetComponent<Animator>(); // Get the Animator component
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
         if (turretTarget != null)
         {
-            // Move directly toward the Turret/Target's current position
             MoveToTarget(turretTarget);
         }
-        else
-        {
-            // If the turret is destroyed, stop or move to the nearest target
-            // For now, we will stop the enemy
-        }
+
+        // Update Animation
         if (anim != null)
         {
-            // For simplicity, we just use the fixed speed value for now since we are always moving:
             anim.SetFloat("Speed", speed);
-
-            // A more complex check would be:
-            // float currentMovementMagnitude = (transform.position - lastPosition).magnitude / Time.deltaTime;
-            // anim.SetFloat("Speed", currentMovementMagnitude);
         }
-
     }
 
-    // This function finds the Turret object by its tag
     void FindTarget()
     {
-        // Find the FIRST object in the scene tagged "Turret"
         GameObject turretGO = GameObject.FindGameObjectWithTag("Turret");
 
         if (turretGO != null)
@@ -54,34 +42,67 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Enemy failed to find object with tag 'Turret'.");
+            Debug.LogWarning("Enemy: Nu am găsit niciun obiect cu tag-ul 'Turret'!");
         }
     }
 
     void MoveToTarget(Transform target)
     {
-        // Move directly to the target position
+        // Mișcare
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
-        // Optional: Make the enemy sprite rotate to face the target
+        // Rotație (pentru 2D, ca inamicul să privească spre turelă)
         Vector2 direction = target.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }
 
+    // Această funcție este apelată când inamicul este lovit
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
-        if (currentHealth <= 0) Die();
+
+        // Opțional: Poți adăuga un efect de "hit" aici (sunet sau particule)
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     void Die()
     {
-        // Destroy the enemy object
-        LevelManager.instance.AddCurrency(10);
+        // 1. Adăugăm bani (verificăm dacă LevelManager există ca să nu primim eroare)
+        if (LevelManager.instance != null)
+        {
+            LevelManager.instance.AddCurrency(10);
+        }
+
+        // 2. AICI ERA PROBLEMA: Distrugem obiectul inamic
+        Destroy(gameObject);
+
+        // Opțional: Instanțiem un efect de explozie înainte de distrugere
+        // Instantiate(explosionEffect, transform.position, Quaternion.identity);
     }
 
-    // Optional: Draw a line to the target in the editor for easy debugging
+    // --- ADĂUGAT EXTRA: DETECȚIE COLIZIUNE ---
+    // Dacă glonțul nu apelează direct TakeDamage(), o putem face aici.
+    // Asigură-te că glonțul are un Collider2D setat pe "Is Trigger" și Tag-ul "Bullet"
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            TakeDamage(1); // Scădem 1 viață
+            Destroy(collision.gameObject); // Distrugem glonțul
+        }
+
+        if (collision.CompareTag("Turret"))
+        {
+            // Inamicul moare instantaneu când atinge baza
+            Die();
+        }
+    }
+
     void OnDrawGizmos()
     {
         if (turretTarget != null)
