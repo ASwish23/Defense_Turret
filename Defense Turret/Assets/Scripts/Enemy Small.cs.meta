@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 19b7fb3f4e39e4240b114ea5df8a1a38
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - turret: {instanceID: 0}
+  - creditPrefab: {fileID: 8597930174789860854, guid: 411b69ae95abbdc42bc6c201143a9e29, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
