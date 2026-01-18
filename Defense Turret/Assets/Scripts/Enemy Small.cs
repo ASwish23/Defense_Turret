@@ -15,17 +15,22 @@ public class EnemySmall : MonoBehaviour
 
     void Start()
     {
-        // găsește turret automat dacă nu e setat
-        GameObject turretGO = GameObject.FindGameObjectWithTag("Turret");
-        if (turretGO != null)
-            turretTarget = turretGO.transform;
-        else
-            Debug.LogError($"{gameObject.name} nu a găsit turret cu tag 'Turret'");
+        // Încercăm să găsim ținta la start
+        FindTarget();
     }
 
     void Update()
     {
+        // --- MODIFICARE: RE-CĂUTARE ȚINTĂ ---
+        // Dacă ținta e null (a fost distrusă în timpul upgrade-ului), o căutăm pe cea nouă
+        if (turretTarget == null)
+        {
+            FindTarget();
+        }
+
+        // Dacă tot nu am găsit ținta, ieșim
         if (turretTarget == null) return;
+        // ------------------------------------
 
         // direcția către turetă
         Vector3 direction = (turretTarget.position - transform.position).normalized;
@@ -38,11 +43,21 @@ public class EnemySmall : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle - 90);
     }
 
+    // Funcție separată pentru a găsi tureta
+    void FindTarget()
+    {
+        GameObject turretGO = GameObject.FindGameObjectWithTag("Turret");
+        if (turretGO != null)
+        {
+            turretTarget = turretGO.transform;
+        }
+    }
+
     // metoda pentru a primi damage
     public void TakeDamage(int damage)
     {
         hp -= damage;
-        Debug.Log($"{gameObject.name} a primit {damage} damage. HP: {hp}");
+        // Debug.Log($"{gameObject.name} a primit {damage} damage. HP: {hp}"); // Poți decomenta pentru debug
 
         if (hp <= 0)
         {

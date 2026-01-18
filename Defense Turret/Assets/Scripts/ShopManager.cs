@@ -85,39 +85,38 @@ public class ShopManager : MonoBehaviour
 
     public void BuyRocketLauncher()
     {
-        // Verificam banii si daca avem prefab-ul setat
         if (!upgradeAlreadyDone && upgradedTurretPrefab != null && LevelManager.instance.SpendCurrency(rocketUnlockCost))
         {
-            // Salvam datele
-            int currentDmg = turret.turretDamage;
-            float currentFR = turret.fireRate;
-            float currentRng = turret.range;
+            // 1. Salvăm datele de la vechea turetă (cea a colegului)
+            int savedDmg = turret.turretDamage;
+            float savedFR = turret.fireRate;
+            float savedRng = turret.range;
 
-            Vector3 position = currentTurretGO.transform.position;
-            Quaternion rotation = currentTurretGO.transform.rotation;
+            Vector3 pos = currentTurretGO.transform.position;
+            Quaternion rot = currentTurretGO.transform.rotation;
 
-            // Schimbam obiectele
+            // 2. Distrugem tureta veche
             Destroy(currentTurretGO);
-            GameObject newTurret = Instantiate(upgradedTurretPrefab, position, rotation);
 
-            // Actualizam referintele interne
+            // 3. Spawnam noua turetă (a TA)
+            GameObject newTurret = Instantiate(upgradedTurretPrefab, pos, rot);
+            newTurret.tag = "Turret"; // Important pentru inamici!
+
+            // 4. ACTUALIZARE REFERINȚE:
             currentTurretGO = newTurret;
-            turret = newTurret.GetComponent<Turret>();
 
-            // Aplicam statisticile vechi + deblocam rachetele
-            turret.turretDamage = currentDmg;
-            turret.fireRate = currentFR;
-            turret.range = currentRng;
-            turret.hasRockets = true;
+            // Căutăm noul tău script pe obiectul spawnat
+            TurretV2 myNewTurretScript = newTurret.GetComponent<TurretV2>();
 
-            // Marcam ca upgrade-ul a fost facut
+            if (myNewTurretScript != null)
+            {
+                myNewTurretScript.turretDamage = savedDmg + 2; // Bonus de upgrade
+                myNewTurretScript.fireRate = savedFR + 0.5f;
+                myNewTurretScript.range = savedRng;
+                myNewTurretScript.hasRockets = true;
+            }
+
             upgradeAlreadyDone = true;
-
-            Debug.Log("Upgrade reusit la Tureta cu 2 tevi!");
-        }
-        else if (upgradedTurretPrefab == null)
-        {
-            Debug.LogError("Atentie! Nu ai tras Prefab-ul turetei noi in Inspector la ShopManager!");
         }
     }
 }

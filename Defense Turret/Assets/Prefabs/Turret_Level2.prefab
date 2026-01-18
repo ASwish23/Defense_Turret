@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 447923149030041524}
   - component: {fileID: 8467856361157719434}
-  - component: {fileID: 6043950841620611339}
+  - component: {fileID: 6053224901868755239}
   m_Layer: 0
   m_Name: Turret_Level2
   m_TagString: Turret
@@ -156,7 +156,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &6043950841620611339
+--- !u!114 &6053224901868755239
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,12 +165,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7885803297198447150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57dbc7cc496b4754fb46dbc9243a185e, type: 3}
+  m_Script: {fileID: 11500000, guid: d4bb4c3b4eda48e45a570f3016a3e5e2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Turret
-  turretDamage: 1
-  range: 10
-  fireRate: 1
+  m_EditorClassIdentifier: Assembly-CSharp::TurretV2
+  turretDamage: 2
+  range: 12
+  fireRate: 1.5
   enemyTag: Enemy
   partToRotate: {fileID: 447923149030041524}
   firePoints:
@@ -178,4 +178,4 @@ MonoBehaviour:
   - {fileID: 5575343289332607383}
   bulletPrefab: {fileID: 7020796720809484020, guid: bd01c39441f318c45847f65b217521ac, type: 3}
   rocketPrefab: {fileID: 7020796720809484020, guid: bd01c39441f318c45847f65b217521ac, type: 3}
-  hasRockets: 0
+  hasRockets: 1

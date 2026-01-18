@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -1226659992739631470}
   m_Layer: 0
   m_Name: Enemy Big
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,10 +181,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBig
   speed: 1.2
-  hp: 3
-  smallEnemyPrefab: {fileID: 7052834548435288875, guid: d34d79fb2b6317a47a098b7d0912ed80, type: 3}
   creditPrefab: {fileID: 0}
   dropChance: 0.3
+  hp: 3
+  enemySmallPrefab: {fileID: 0}
 --- !u!114 &-1226659992739631470
 MonoBehaviour:
   m_ObjectHideFlags: 0

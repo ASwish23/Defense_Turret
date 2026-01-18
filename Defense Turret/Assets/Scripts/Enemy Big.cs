@@ -3,10 +3,10 @@
 public class EnemyBig : MonoBehaviour
 {
     [Header("Mișcare")]
-    public float speed = 1.5f;           // mai lent decât mic
+    public float speed = 1.5f;            // mai lent decât mic
     public GameObject creditPrefab;
     [Range(0f, 1f)]
-    public float dropChance = 0.5f;      // șansă mai mare de drop
+    public float dropChance = 0.5f;       // șansă mai mare de drop
 
     [Header("Stats")]
     public int hp = 5;                    // mai multă viață
@@ -16,20 +16,22 @@ public class EnemyBig : MonoBehaviour
 
     void Start()
     {
-        // găsește turret automat
-        if (turretTarget == null)
-        {
-            GameObject turretGO = GameObject.FindGameObjectWithTag("Turret");
-            if (turretGO != null)
-                turretTarget = turretGO.transform;
-            else
-                Debug.LogError($"{gameObject.name} nu a găsit turret cu tag 'Turret'");
-        }
+        // Încercăm să găsim ținta la start
+        FindTarget();
     }
 
     void Update()
     {
+        // --- MODIFICARE: RE-CĂUTARE ȚINTĂ ---
+        // Dacă ținta e null (a fost distrusă în timpul upgrade-ului), o căutăm pe cea nouă
+        if (turretTarget == null)
+        {
+            FindTarget();
+        }
+
+        // Dacă tot nu am găsit ținta (de ex: jocul s-a terminat), nu facem nimic
         if (turretTarget == null) return;
+        // ------------------------------------
 
         // direcția către turret
         Vector3 direction = (turretTarget.position - transform.position).normalized;
@@ -40,6 +42,16 @@ public class EnemyBig : MonoBehaviour
         // rotire către turret
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle - 180);
+    }
+
+    // Funcție separată pentru a găsi tureta
+    void FindTarget()
+    {
+        GameObject turretGO = GameObject.FindGameObjectWithTag("Turret");
+        if (turretGO != null)
+        {
+            turretTarget = turretGO.transform;
+        }
     }
 
     public void TakeDamage(int damage)

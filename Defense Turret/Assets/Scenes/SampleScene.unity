@@ -417,6 +417,18 @@ MonoBehaviour:
   - waveName: Wave 1
     enemyCount: 20
     spawnRate: 1.2
+  - waveName: Wave 1
+    enemyCount: 20
+    spawnRate: 1.2
+  - waveName: Wave 1
+    enemyCount: 10
+    spawnRate: 1
+  - waveName: Wave 1
+    enemyCount: 10
+    spawnRate: 1
+  - waveName: Wave 1
+    enemyCount: 20
+    spawnRate: 1.2
   spawnPoints:
   - {fileID: 1617290615}
   - {fileID: 1914025701}

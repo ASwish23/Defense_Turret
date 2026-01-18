@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3115174998659195821}
   m_Layer: 0
   m_Name: Enemy Small
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,7 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySmall
   speed: 2.5
-  turret: {fileID: 0}
   creditPrefab: {fileID: 0}
   dropChance: 0.3
   hp: 1
@@ -199,7 +198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySmall
   speed: 100
-  turret: {fileID: 0}
   creditPrefab: {fileID: 0}
   dropChance: 0.3
   hp: 1

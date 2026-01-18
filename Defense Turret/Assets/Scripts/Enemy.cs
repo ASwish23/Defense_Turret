@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,26 +20,27 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        // 1. Verificăm dacă nu avem țintă SAU dacă ținta a fost distrusă
+        if (turretTarget == null)
+        {
+            FindTarget();
+        }
+
+        // 2. Mișcăm inamicul DOAR dacă am găsit o țintă nouă
         if (turretTarget != null)
         {
-            // Move directly toward the Turret/Target's current position
             MoveToTarget(turretTarget);
         }
         else
         {
-            // If the turret is destroyed, stop or move to the nearest target
-            // For now, we will stop the enemy
+            // Dacă e null aici, înseamnă că FindTarget nu a găsit nimic tagged "Turret"
+            // Inamicul stă pe loc, nu mai dă erori.
         }
+
         if (anim != null)
         {
-            // For simplicity, we just use the fixed speed value for now since we are always moving:
             anim.SetFloat("Speed", speed);
-
-            // A more complex check would be:
-            // float currentMovementMagnitude = (transform.position - lastPosition).magnitude / Time.deltaTime;
-            // anim.SetFloat("Speed", currentMovementMagnitude);
         }
-
     }
 
     // This function finds the Turret object by its tag
