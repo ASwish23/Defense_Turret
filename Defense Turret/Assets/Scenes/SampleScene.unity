@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0abcfddb64d6e234dae097a6452256ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
-  turret: {fileID: 1316581256}
+  turret: {fileID: 0}
   currentTurretGO: {fileID: 0}
   upgradedTurretPrefab: {fileID: 0}
   damageButton: {fileID: 1138388418}
@@ -487,7 +487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -999,7 +999,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4.060974, y: 4.6710205}
+  m_AnchoredPosition: {x: -4.060913, y: 4.6710205}
   m_SizeDelta: {x: 302.079, y: 243.341}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &744611916
@@ -1103,7 +1103,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1392921156}
+      - m_Target: {fileID: 1392921154}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: BuyRocketLauncher
         m_Mode: 1
@@ -1203,10 +1203,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1138388417}
   - {fileID: 1836214540}
   - {fileID: 1808465680}
   - {fileID: 834288077}
+  - {fileID: 1138388417}
   m_Father: {fileID: 1264379287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
@@ -1303,7 +1303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1540,9 +1540,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 111096529}
+      - m_Target: {fileID: 1392921154}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: BuyDamageUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2129,7 +2129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1392921155}
   - component: {fileID: 1392921154}
-  - component: {fileID: 1392921156}
   m_Layer: 0
   m_Name: ShopManager_nou
   m_TagString: Untagged
@@ -2175,29 +2174,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1392921156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392921153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0abcfddb64d6e234dae097a6452256ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShopManager
-  turret: {fileID: 1316581256}
-  currentTurretGO: {fileID: 1316581255}
-  upgradedTurretPrefab: {fileID: 7885803297198447150, guid: 758c5665fa3c40c47aab0ca7ec6c2d34, type: 3}
-  damageButton: {fileID: 1138388418}
-  fireRateButton: {fileID: 1836214541}
-  rangeButton: {fileID: 1808465681}
-  rocketButton: {fileID: 834288074}
-  damageCost: 50
-  fireRateCost: 75
-  rangeCost: 100
-  rocketUnlockCost: 500
 --- !u!1 &1443399552
 GameObject:
   m_ObjectHideFlags: 0
@@ -2249,7 +2225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2495,7 +2471,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 111096530}
+      - m_Target: {fileID: 1392921154}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: BuyRangeUpgrade
         m_Mode: 1
@@ -2628,7 +2604,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 111096530}
+      - m_Target: {fileID: 1392921154}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: BuyFireRateUpgrade
         m_Mode: 1
@@ -2853,7 +2829,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
