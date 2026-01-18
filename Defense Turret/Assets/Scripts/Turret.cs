@@ -11,11 +11,13 @@ public class Turret : MonoBehaviour
     [Header("Unity Setup Fields")]
     public string enemyTag = "Enemy";
     public Transform partToRotate;
-    public Transform firePoint;
 
-    [Space(10)] // Doar pentru aspect în Inspector
-    public GameObject bulletPrefab; // Drag Bullet Prefab here
-    public GameObject rocketPrefab; // <--- NOU: Drag Rocket Prefab here (o să îl facem imediat)
+    // --- MODIFICARE: Folosim un ARRAY (listă) pentru a putea avea 1, 2 sau mai multe țevi ---
+    public Transform[] firePoints;
+
+    [Space(10)]
+    public GameObject bulletPrefab;
+    public GameObject rocketPrefab;
 
     [Header("Weapon Unlocks")]
     public bool hasRockets = false; // Se activează din Shop
@@ -31,7 +33,6 @@ public class Turret : MonoBehaviour
 
     void UpdateTarget()
     {
-        // ... (Logica ta originală de căutare inamici - neschimbată) ...
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
@@ -79,7 +80,7 @@ public class Turret : MonoBehaviour
 
         if (target == null) return;
 
-        // 2. --- ROTIREA TURETEI (Codul tău original) ---
+        // 2. --- ROTIREA TURETEI ---
         Vector3 dir = target.position - transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         partToRotate.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
@@ -92,7 +93,7 @@ public class Turret : MonoBehaviour
             // Calculăm cadența de tragere în funcție de armă
             if (currentWeaponMode == 1) // Dacă suntem pe Rachete
             {
-                // Rachetele trag de 2 ori mai încet decât mitraliera
+                // Rachetele trag mai încet
                 fireCountdown = 1f / (fireRate * 0.5f);
             }
             else // Dacă suntem pe Mitralieră
@@ -113,19 +114,25 @@ public class Turret : MonoBehaviour
         if (currentWeaponMode == 1) // Mod Rachetă
         {
             prefabToUse = rocketPrefab;
-            currentDamage = turretDamage * 4; // Racheta dă damage de 4 ori mai mare!
+            currentDamage = turretDamage * 4;
         }
 
-        // Instanțiem proiectilul ales
-        GameObject bulletGO = (GameObject)Instantiate(prefabToUse, firePoint.position, firePoint.rotation);
-
-        // Asigură-te că și racheta va avea scriptul BulletMovement (sau unul similar)
-        BulletMovement bullet = bulletGO.GetComponent<BulletMovement>();
-
-        if (bullet != null)
+        // --- PARTEA NOUĂ: Tragem din TOATE punctele definite (1 sau 2) ---
+        foreach (Transform fp in firePoints)
         {
-            bullet.damage = currentDamage;
-            bullet.Seek(target);
+            if (fp != null)
+            {
+                // Instanțiem proiectilul la punctul curent (fp)
+                GameObject bulletGO = Instantiate(prefabToUse, fp.position, fp.rotation);
+
+                // Setăm damage-ul și ținta
+                BulletMovement bullet = bulletGO.GetComponent<BulletMovement>();
+                if (bullet != null)
+                {
+                    bullet.damage = currentDamage; // Folosim variabila ta 'damage'
+                    bullet.Seek(target);
+                }
+            }
         }
     }
 
