@@ -90,15 +90,28 @@ public class Enemy : MonoBehaviour
     // Asigură-te că glonțul are un Collider2D setat pe "Is Trigger" și Tag-ul "Bullet"
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // CAZUL 1: Inamicul este lovit de un GLONȚ
         if (collision.CompareTag("Bullet"))
         {
-            TakeDamage(1); // Scădem 1 viață
-            Destroy(collision.gameObject); // Distrugem glonțul
+            TakeDamage(1);
+            Destroy(collision.gameObject);
         }
 
+        // CAZUL 2: Inamicul a atins TURETA (Baza)
         if (collision.CompareTag("Turret"))
         {
-            // Inamicul moare instantaneu când atinge baza
+            // --- MODIFICAREA ESTE AICI ---
+            // Apelăm GameManager să scădem o viață
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.ReduceLives();
+            }
+            else
+            {
+                Debug.LogError("Nu am găsit GameManager în scenă!");
+            }
+
+            // Inamicul moare
             Die();
         }
     }
