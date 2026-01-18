@@ -181,6 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
   turret: {fileID: 1316581256}
+  currentTurretGO: {fileID: 0}
+  upgradedTurretPrefab: {fileID: 0}
   damageButton: {fileID: 1138388418}
   fireRateButton: {fileID: 1836214541}
   rangeButton: {fileID: 1808465681}
@@ -1013,7 +1015,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 111096530}
+      - m_Target: {fileID: 1392921156}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: BuyRocketLauncher
         m_Mode: 1
@@ -1450,9 +1452,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 111096530}
+      - m_Target: {fileID: 111096529}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: BuyDamageUpgrade
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1717,7 +1719,8 @@ MonoBehaviour:
   fireRate: 1
   enemyTag: Enemy
   partToRotate: {fileID: 1316581258}
-  firePoint: {fileID: 85251223}
+  firePoints:
+  - {fileID: 85251223}
   bulletPrefab: {fileID: 7020796720809484020, guid: bd01c39441f318c45847f65b217521ac, type: 3}
   rocketPrefab: {fileID: 7020796720809484020, guid: bd01c39441f318c45847f65b217521ac, type: 3}
   hasRockets: 0
@@ -1768,7 +1771,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2909458258800530498, guid: 36887de0e16d69a48a24b3932b338822, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1842,6 +1845,85 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
   currentCurrency: 0
   currencyText: {fileID: 0}
+--- !u!1 &1392921153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1392921155}
+  - component: {fileID: 1392921154}
+  - component: {fileID: 1392921156}
+  m_Layer: 0
+  m_Name: ShopManager_nou
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1392921154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392921153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abcfddb64d6e234dae097a6452256ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopManager
+  turret: {fileID: 1316581256}
+  currentTurretGO: {fileID: 1316581255}
+  upgradedTurretPrefab: {fileID: 7885803297198447150, guid: 758c5665fa3c40c47aab0ca7ec6c2d34, type: 3}
+  damageButton: {fileID: 1138388418}
+  fireRateButton: {fileID: 1836214541}
+  rangeButton: {fileID: 1808465681}
+  rocketButton: {fileID: 834288074}
+  damageCost: 50
+  fireRateCost: 75
+  rangeCost: 100
+  rocketUnlockCost: 500
+--- !u!4 &1392921155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392921153}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 462.13577, y: 306.5375, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1392921156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392921153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abcfddb64d6e234dae097a6452256ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopManager
+  turret: {fileID: 1316581256}
+  currentTurretGO: {fileID: 1316581255}
+  upgradedTurretPrefab: {fileID: 7885803297198447150, guid: 758c5665fa3c40c47aab0ca7ec6c2d34, type: 3}
+  damageButton: {fileID: 1138388418}
+  fireRateButton: {fileID: 1836214541}
+  rangeButton: {fileID: 1808465681}
+  rocketButton: {fileID: 834288074}
+  damageCost: 50
+  fireRateCost: 75
+  rangeCost: 100
+  rocketUnlockCost: 500
 --- !u!1 &1443399552
 GameObject:
   m_ObjectHideFlags: 0
@@ -2552,3 +2634,4 @@ SceneRoots:
   - {fileID: 1264379287}
   - {fileID: 111096532}
   - {fileID: 176865599}
+  - {fileID: 1392921155}
