@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1703855256878299506}
   - component: {fileID: 4363206615988970246}
   - component: {fileID: -3415863296503924392}
-  - component: {fileID: 1980274960979673031}
   - component: {fileID: 3115174998659195821}
+  - component: {fileID: 6188488106227444557}
   m_Layer: 0
   m_Name: Enemy Small
   m_TagString: Enemy
@@ -153,7 +153,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -181,23 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b7fb3f4e39e4240b114ea5df8a1a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySmall
-  speed: 2.5
-  creditPrefab: {fileID: 0}
-  dropChance: 0.3
-  hp: 1
---- !u!114 &1980274960979673031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7052834548435288875}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19b7fb3f4e39e4240b114ea5df8a1a38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySmall
-  speed: 100
+  speed: 2
   creditPrefab: {fileID: 0}
   dropChance: 0.3
   hp: 1
@@ -214,3 +198,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidRotation
   rotationSpeed: 100
+--- !u!114 &6188488106227444557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052834548435288875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504527407eeb2034b9c624e58b2c146f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  speed: 3
+  maxHealth: 3

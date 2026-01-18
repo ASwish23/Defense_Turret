@@ -10,17 +10,20 @@ public class Turret : MonoBehaviour
 
     [Header("Unity Setup Fields")]
     public string enemyTag = "Enemy";
-    public Transform partToRotate;
-
-    // --- MODIFICARE: Folosim un ARRAY (listă) pentru a putea avea 1, 2 sau mai multe țevi ---
-    public Transform[] firePoints;
+    public Transform partToRotate; // ASIGURĂ-TE CĂ AI TRAS OBIECTUL AICI ÎN INSPECTOR!
+    public Transform firePoint;
 
     [Space(10)]
     public GameObject bulletPrefab;
     public GameObject rocketPrefab;
 
-    [Header("Weapon Unlocks")]
-    public bool hasRockets = false; // Se activează din Shop
+    [Header("Settings")]
+    public bool hasRockets = false;
+
+    // --- MODIFICARE 1: Offset reglabil din Inspector ---
+    [Range(-360f, 360f)]
+    public float rotationOffset = -90f; // Modifică asta dacă turela stă strâmb
+    public float rotationSpeed = 10f;   // Cât de repede se rotește
 
     // Variabile interne
     private Transform target;
@@ -59,80 +62,68 @@ public class Turret : MonoBehaviour
 
     void Update()
     {
-        // 1. --- LOGICA DE SCHIMBARE A ARMEI (INPUT) ---
+        // 1. Schimbare armă
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             currentWeaponMode = 0;
             Debug.Log("Arma: MITRALIERA");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+
+        // AICI ERA EROAREA - Am corectat paranteza
+        if (Input.GetKeyDown(KeyCode.Alpha2) && hasRockets)
         {
-            if (hasRockets)
-            {
-                currentWeaponMode = 1;
-                Debug.Log("Arma: RACHETE");
-            }
-            else
-            {
-                Debug.Log("LOCKED! Trebuie să cumperi rachetele din Shop.");
-            }
+            currentWeaponMode = 1;
+            Debug.Log("Arma: RACHETE");
         }
 
         if (target == null) return;
 
         // 2. --- ROTIREA TURETEI ---
-        Vector3 dir = target.position - transform.position;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        partToRotate.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+        LockOnTarget();
 
-        // 3. --- TRAGEREA ---
+        // 3. Tragerea
         if (fireCountdown <= 0f)
         {
             Shoot();
-
-            // Calculăm cadența de tragere în funcție de armă
-            if (currentWeaponMode == 1) // Dacă suntem pe Rachete
-            {
-                // Rachetele trag mai încet
+            if (currentWeaponMode == 1)
                 fireCountdown = 1f / (fireRate * 0.5f);
-            }
-            else // Dacă suntem pe Mitralieră
-            {
+            else
                 fireCountdown = 1f / fireRate;
-            }
         }
 
         fireCountdown -= Time.deltaTime;
     }
 
+    void LockOnTarget()
+    {
+        // Calculăm direcția
+        Vector3 dir = target.position - transform.position;
+
+        // Calculăm unghiul
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        // Creăm rotația finală folosind Offset-ul din Inspector
+        Quaternion rotation = Quaternion.AngleAxis(angle + rotationOffset, Vector3.forward);
+
+        // Aplicăm rotația fluid (Lerp) în loc de instantaneu
+        // Dacă vrei instant, folosește linia comentată mai jos
+        partToRotate.rotation = Quaternion.Lerp(partToRotate.rotation, rotation, Time.deltaTime * rotationSpeed);
+
+        // partToRotate.rotation = rotation; // Varianta instantanee (veche)
+    }
+
     void Shoot()
     {
-        // Alegem ce proiectil folosim și ce damage dăm
-        GameObject prefabToUse = bulletPrefab;
-        int currentDamage = turretDamage;
+        GameObject prefabToUse = (currentWeaponMode == 1) ? rocketPrefab : bulletPrefab;
+        int currentDamage = (currentWeaponMode == 1) ? turretDamage * 4 : turretDamage;
 
-        if (currentWeaponMode == 1) // Mod Rachetă
+        GameObject bulletGO = (GameObject)Instantiate(prefabToUse, firePoint.position, firePoint.rotation);
+        BulletMovement bullet = bulletGO.GetComponent<BulletMovement>();
+
+        if (bullet != null)
         {
-            prefabToUse = rocketPrefab;
-            currentDamage = turretDamage * 4;
-        }
-
-        // --- PARTEA NOUĂ: Tragem din TOATE punctele definite (1 sau 2) ---
-        foreach (Transform fp in firePoints)
-        {
-            if (fp != null)
-            {
-                // Instanțiem proiectilul la punctul curent (fp)
-                GameObject bulletGO = Instantiate(prefabToUse, fp.position, fp.rotation);
-
-                // Setăm damage-ul și ținta
-                BulletMovement bullet = bulletGO.GetComponent<BulletMovement>();
-                if (bullet != null)
-                {
-                    bullet.damage = currentDamage; // Folosim variabila ta 'damage'
-                    bullet.Seek(target);
-                }
-            }
+            bullet.damage = currentDamage;
+            bullet.Seek(target);
         }
     }
 
