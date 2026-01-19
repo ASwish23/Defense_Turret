@@ -84,7 +84,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6598842272864494176, guid: 393f64f76c167724cb0573a94c61652a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -183,10 +183,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBig
   speed: 1.2
   creditPrefab: {fileID: 0}
-  deathEffect: {fileID: 0}
+  currencyReward: 50
+  deathEffect: {fileID: 8021984932017442473, guid: d86e2ef61d9cc3c438d9a04a6c508881, type: 3}
   dropChance: 0.5
   hp: 3
-  enemySmallPrefab: {fileID: 0}
+  enemySmallPrefab: {fileID: 7052834548435288875, guid: d34d79fb2b6317a47a098b7d0912ed80, type: 3}
 --- !u!114 &-1226659992739631470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,4 +215,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   speed: 1.2
   maxHealth: 3
+  currencyReward: 25
   deathEffect: {fileID: 8021984932017442473, guid: d86e2ef61d9cc3c438d9a04a6c508881, type: 3}

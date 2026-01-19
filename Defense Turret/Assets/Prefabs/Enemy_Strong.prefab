@@ -82,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8038976213705442086, guid: ca74082655e9fb64684ec6e5bfba5fd6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   speed: 2
   maxHealth: 10
+  currencyReward: 25
   deathEffect: {fileID: 8021984932017442473, guid: d86e2ef61d9cc3c438d9a04a6c508881, type: 3}
 --- !u!50 &-1625678882870690153
 Rigidbody2D:
