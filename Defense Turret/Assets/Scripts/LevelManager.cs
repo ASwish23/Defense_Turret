@@ -5,7 +5,7 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance; // Singleton pentru acces u?or
 
-    public int currentCurrency = 0;
+    public int currentCurrency = 500;
     public TextMeshProUGUI currencyText; // Trage textul de pe ecran aici
 
     void Awake()
@@ -31,12 +31,12 @@ public class LevelManager : MonoBehaviour
         {
             currentCurrency -= amount;
             UpdateUI();
-            return true; // Tranzac?ie reu?itã
+            return true; // Tranzac?ie reu?itï¿½
         }
         else
         {
             Debug.Log("Fonduri insuficiente!");
-            return false; // Tranzac?ie e?uatã
+            return false; // Tranzac?ie e?uatï¿½
         }
     }
 
