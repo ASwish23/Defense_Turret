@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBig
   speed: 1.2
   creditPrefab: {fileID: 0}
+  deathEffect: {fileID: 0}
   dropChance: 0.5
   hp: 3
   enemySmallPrefab: {fileID: 0}
@@ -213,3 +214,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   speed: 1.2
   maxHealth: 3
+  deathEffect: {fileID: 8021984932017442473, guid: d86e2ef61d9cc3c438d9a04a6c508881, type: 3}

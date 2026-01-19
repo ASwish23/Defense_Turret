@@ -2,13 +2,15 @@
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Attributes")]
     public float speed = 3f;
     public int maxHealth = 3;
 
-    // Private variables
+    [Header("Effects")]
+    public int currencyReward = 25;
+    public GameObject deathEffect; // <-- AICI TRAGI PREFABUL EnemyExplosion
+
     private int currentHealth;
-    private Transform turretTarget = null;
+    private Transform turretTarget;
     private Animator anim;
 
     void Start()
@@ -20,119 +22,57 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        // 1. Verificăm dacă nu avem țintă SAU dacă ținta a fost distrusă
-        if (turretTarget == null)
-        {
-            FindTarget();
-        }
-
-        // 2. Mișcăm inamicul DOAR dacă am găsit o țintă nouă
-        if (turretTarget != null)
-        {
-            MoveToTarget(turretTarget);
-        }
-        else
-        {
-            // Dacă e null aici, înseamnă că FindTarget nu a găsit nimic tagged "Turret"
-            // Inamicul stă pe loc, nu mai dă erori.
-        }
-
-        if (anim != null)
-        {
-            anim.SetFloat("Speed", speed);
-        }
+        if (turretTarget == null) FindTarget();
+        if (turretTarget != null) MoveToTarget(turretTarget);
+        if (anim != null) anim.SetFloat("Speed", speed);
     }
 
     void FindTarget()
     {
         GameObject turretGO = GameObject.FindGameObjectWithTag("Turret");
-
-        if (turretGO != null)
-        {
-            turretTarget = turretGO.transform;
-        }
-        else
-        {
-            Debug.LogWarning("Enemy: Nu am găsit niciun obiect cu tag-ul 'Turret'!");
-        }
+        if (turretGO != null) turretTarget = turretGO.transform;
     }
 
     void MoveToTarget(Transform target)
     {
-        // Mișcare
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-
-        // Rotație (pentru 2D, ca inamicul să privească spre turelă)
         Vector2 direction = target.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }
 
-    // Această funcție este apelată când inamicul este lovit
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
-
-        // Opțional: Poți adăuga un efect de "hit" aici (sunet sau particule)
+        // Daca inca are viata, NU se intampla nimic vizual.
 
         if (currentHealth <= 0)
         {
-            Die();
+            Die(); // Abia cand viata e 0, apelam Die()
         }
     }
 
     void Die()
     {
-        // 1. Adăugăm bani (verificăm dacă LevelManager există ca să nu primim eroare)
-        if (LevelManager.instance != null)
+        // --- EXPLOZIA ESTE AICI (LA MOARTE) ---
+        if (deathEffect != null)
         {
-            LevelManager.instance.AddCurrency(10);
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
+            Destroy(effect, 1f);
         }
 
-        // 2. AICI ERA PROBLEMA: Distrugem obiectul inamic
-        Destroy(gameObject);
+        if (LevelManager.instance != null)
+            LevelManager.instance.AddCurrency(currencyReward);
 
-        // Opțional: Instanțiem un efect de explozie înainte de distrugere
-        // Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
-    // --- ADĂUGAT EXTRA: DETECȚIE COLIZIUNE ---
-    // Dacă glonțul nu apelează direct TakeDamage(), o putem face aici.
-    // Asigură-te că glonțul are un Collider2D setat pe "Is Trigger" și Tag-ul "Bullet"
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // CAZUL 1: Inamicul este lovit de un GLONȚ
-        if (collision.CompareTag("Bullet"))
-        {
-            TakeDamage(1);
-            Destroy(collision.gameObject);
-        }
-
-        // CAZUL 2: Inamicul a atins TURETA (Baza)
         if (collision.CompareTag("Turret"))
         {
-            // --- MODIFICAREA ESTE AICI ---
-            // Apelăm GameManager să scădem o viață
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.ReduceLives();
-            }
-            else
-            {
-                Debug.LogError("Nu am găsit GameManager în scenă!");
-            }
-
-            // Inamicul moare
+            if (GameManager.instance != null) GameManager.instance.ReduceLives();
             Die();
-        }
-    }
-
-    void OnDrawGizmos()
-    {
-        if (turretTarget != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, turretTarget.position);
         }
     }
 }

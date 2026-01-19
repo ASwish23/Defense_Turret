@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   speed: 2.5
   maxHealth: 5
+  deathEffect: {fileID: 8021984932017442473, guid: d86e2ef61d9cc3c438d9a04a6c508881, type: 3}
 --- !u!50 &1071377683078952996
 Rigidbody2D:
   serializedVersion: 5
