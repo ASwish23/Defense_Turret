@@ -21,7 +21,14 @@ public class ShopManager : MonoBehaviour
     public int rangeCost = 100;
     public int rocketUnlockCost = 500;
 
+<<<<<<< Updated upstream
     private bool upgradeAlreadyDone = false; // Flag ca sa stim daca am cumparat deja
+=======
+    [Header("UI Buttons Text")]
+    public TextMeshProUGUI damageCostText;
+    public TextMeshProUGUI speedCostText;
+    public TextMeshProUGUI rangeCostText;
+>>>>>>> Stashed changes
 
     void Update()
     {
@@ -29,6 +36,7 @@ public class ShopManager : MonoBehaviour
         {
             int baniDisponibili = LevelManager.instance.currentCurrency;
 
+<<<<<<< Updated upstream
             // Upgrade-uri normale
             if (damageButton != null) damageButton.interactable = (baniDisponibili >= damageCost);
             if (fireRateButton != null) fireRateButton.interactable = (baniDisponibili >= fireRateCost);
@@ -53,6 +61,22 @@ public class ShopManager : MonoBehaviour
                     rocketButton.interactable = (baniDisponibili >= rocketUnlockCost);
                 }
             }
+=======
+            if (rocketTurret != null && rocketTurret.gameObject.activeInHierarchy)
+            {
+                rocketTurret.turretDamage += 1;
+                Debug.Log("V2 Damage Upgraded!");
+            }
+            else
+            {
+                standardTurret.turretDamage += 1;
+                Debug.Log("V1 Damage Upgraded!");
+            }
+        }
+        else
+        {
+            Debug.Log("Nu ai bani de Damage!");
+>>>>>>> Stashed changes
         }
     }
 
@@ -60,8 +84,25 @@ public class ShopManager : MonoBehaviour
     {
         if (LevelManager.instance.SpendCurrency(damageCost))
         {
+<<<<<<< Updated upstream
             turret.turretDamage += 1;
             damageCost += 25;
+=======
+            LevelManager.instance.SpendCurrency(speedCost);
+
+            if (rocketTurret != null && rocketTurret.gameObject.activeInHierarchy)
+            {
+                rocketTurret.fireRate += 0.2f;
+            }
+            else
+            {
+                standardTurret.fireRate += 0.2f;
+            }
+        }
+        else
+        {
+            Debug.Log("Nu ai bani de Viteza!");
+>>>>>>> Stashed changes
         }
     }
 
@@ -76,6 +117,7 @@ public class ShopManager : MonoBehaviour
 
     public void BuyRangeUpgrade()
     {
+<<<<<<< Updated upstream
         if (LevelManager.instance.SpendCurrency(rangeCost))
         {
             turret.range += 2f;
@@ -109,6 +151,11 @@ public class ShopManager : MonoBehaviour
             TurretV2 myNewTurretScript = newTurret.GetComponent<TurretV2>();
 
             if (myNewTurretScript != null)
+=======
+        if (LevelManager.instance.currentCurrency >= rocketUnlockCost)
+        {
+            if (rocketTurret.gameObject.activeInHierarchy)
+>>>>>>> Stashed changes
             {
                 myNewTurretScript.turretDamage = savedDmg + 2; // Bonus de upgrade
                 myNewTurretScript.fireRate = savedFR + 0.5f;
@@ -116,7 +163,31 @@ public class ShopManager : MonoBehaviour
                 myNewTurretScript.hasRockets = true;
             }
 
+<<<<<<< Updated upstream
             upgradeAlreadyDone = true;
+=======
+            LevelManager.instance.SpendCurrency(rocketUnlockCost);
+
+            // 1. OPRIM Tureta 1
+            standardTurret.gameObject.SetActive(false);
+
+            // 2. PORNIM Tureta 2
+            rocketTurret.gameObject.SetActive(true);
+
+            // 3. Transferam stats-urile
+            rocketTurret.turretDamage = standardTurret.turretDamage + 1;
+            rocketTurret.fireRate = standardTurret.fireRate;
+            rocketTurret.range = standardTurret.range;
+
+            // --- AM SCOS PARTEA CU ACTIVATE HARD MODE ---
+            // Acum jocul isi va continua valurile normale, definite in Inspector.
+
+            Debug.Log("ROCKETS UNLOCKED!");
+        }
+        else
+        {
+            Debug.Log("Nu ai 500$ pentru rachete!");
+>>>>>>> Stashed changes
         }
     }
 }

@@ -64,8 +64,22 @@ public class EnemyBig : MonoBehaviour
     }
 
     void Die()
+<<<<<<< Updated upstream
     {
         // drop de credit
+=======
+    {// --- LINIE DE TEST (DEBUG) ---
+        Debug.Log("Big Enemy a murit. Prefab mic: " + enemySmallPrefab);
+        // --- EXPLOZIA ---
+        if (deathEffect != null)
+        {
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
+            effect.transform.localScale = Vector3.one * 1.5f; // O facem putin mai mare pt Big Enemy
+            Destroy(effect, 1f);
+        }
+        if (LevelManager.instance != null)
+            LevelManager.instance.AddCurrency(currencyReward);
+>>>>>>> Stashed changes
         if (Random.value < dropChance && creditPrefab != null)
         {
             Instantiate(creditPrefab, transform.position, Quaternion.identity);

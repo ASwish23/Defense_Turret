@@ -86,12 +86,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 6598842272864494176, guid: 393f64f76c167724cb0573a94c61652a, type: 3}
+  m_Sprite: {fileID: 3230725876381539780, guid: 6eb7912497576f24daf9ec9cbfdb1128, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.29, y: 1.18}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -161,8 +161,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.52, y: 1.27}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1.29, y: 1.18}
+    newSize: {x: 1.29, y: 1.18}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -183,6 +183,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySmall
   speed: 2
   creditPrefab: {fileID: 0}
+<<<<<<< Updated upstream
+=======
+  currencyReward: 15
+  deathEffect: {fileID: 0}
+>>>>>>> Stashed changes
   dropChance: 0.3
   hp: 1
 --- !u!114 &3115174998659195821
@@ -212,3 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   speed: 3
   maxHealth: 3
+<<<<<<< Updated upstream
+=======
+  currencyReward: 25
+  deathEffect: {fileID: 8021984932017442473, guid: d86e2ef61d9cc3c438d9a04a6c508881, type: 3}
+>>>>>>> Stashed changes

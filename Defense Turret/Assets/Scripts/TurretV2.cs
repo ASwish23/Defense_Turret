@@ -24,19 +24,39 @@ public class TurretV2 : MonoBehaviour
 
     void Start()
     {
-        // Cauta tinta de 2 ori pe secunda ca sa nu consume procesor mult
+        // --- LINIA NOUA ---
+        if (hasRockets)
+        {
+            currentWeaponMode = 1; // Activeaza rachetele automat la start
+        }
+        // ------------------
+
+        // Cauta tinta de 2 ori pe secunda
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
     }
-
     void UpdateTarget()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+
+        // --- DEBUG START ---
+        if (enemies.Length == 0)
+        {
+            // Daca apare asta in consola, inseamna ca inamicii NU au Tag-ul "Enemy"
+            Debug.LogWarning("Tureta nu gaseste niciun obiect cu tag-ul: " + enemyTag);
+        }
+        // -------------------
+
         float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
 
         foreach (GameObject enemy in enemies)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
+
+            // --- DEBUG PENTRU DISTANTA ---
+            // Daca distanta e mereu mare (ex: 50+), avem o problema cu axa Z
+            // Debug.Log("Distanta pana la inamic: " + distanceToEnemy); 
+
             if (distanceToEnemy < shortestDistance)
             {
                 shortestDistance = distanceToEnemy;
@@ -47,6 +67,7 @@ public class TurretV2 : MonoBehaviour
         if (nearestEnemy != null && shortestDistance <= range)
         {
             target = nearestEnemy.transform;
+            Debug.Log("TINTA GASITA: " + target.name); // Confirmare ca a gasit pe cineva
         }
         else
         {

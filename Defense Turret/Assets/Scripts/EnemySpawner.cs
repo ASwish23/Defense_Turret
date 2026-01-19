@@ -5,8 +5,8 @@ using System.Collections;
 public class Wave
 {
     public string waveName = "Wave 1";
-    public int enemyCount = 10;      // Total enemies in this wave
-    public float spawnRate = 1.0f;   // Enemies per second
+    public int enemyCount = 10;
+    public float spawnRate = 1.0f;
 }
 
 public class EnemySpawner : MonoBehaviour
@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject mediumPrefab;
     public GameObject strongPrefab;
 
-    [Header("Meteor Prefabs (new)")]
+    [Header("Meteor Prefabs")]
     public GameObject enemySmallPrefab;
     public GameObject enemyBigPrefab;
 
@@ -25,10 +25,9 @@ public class EnemySpawner : MonoBehaviour
     public Wave[] waves;
 
     [Header("Spawn Area")]
-    public Transform[] spawnPoints; // deja folosit
+    public Transform[] spawnPoints;
 
     private int currentWaveIndex = 0;
-    private bool spawningActive = true;
 
     void Start()
     {
@@ -44,49 +43,39 @@ public class EnemySpawner : MonoBehaviour
 
             for (int i = 0; i < currentWave.enemyCount; i++)
             {
-                if (!spawningActive) yield break;
-
                 SpawnRandomEnemy();
-
                 yield return new WaitForSeconds(1f / currentWave.spawnRate);
             }
 
-            Debug.Log($"Wave finished! Resting for {timeBetweenWaves} seconds.");
+            Debug.Log("Wave finished! Resting...");
             yield return new WaitForSeconds(timeBetweenWaves);
 
             currentWaveIndex++;
         }
 
-        Debug.Log("All waves complete!");
+        Debug.Log("All waves complete! You Win!");
     }
 
     void SpawnRandomEnemy()
     {
         if (spawnPoints.Length == 0) return;
 
-        // Alege un spawn point random
         int pointIndex = Random.Range(0, spawnPoints.Length);
         Transform spawnPoint = spawnPoints[pointIndex];
 
-        // Alege tipul entity (weighted)
+        // Alege tipul entity (weighted) - Poti ajusta procentele cum vrei
         int diceRoll = Random.Range(0, 100);
         GameObject selectedPrefab = null;
 
-        if (diceRoll < 40) // 40% weak
-            selectedPrefab = weakPrefab;
-        else if (diceRoll < 60) // 20% medium
-            selectedPrefab = mediumPrefab;
-        else if (diceRoll < 70) // 10% strong
-            selectedPrefab = strongPrefab;
-        else if (diceRoll < 90) // 20% EnemySmall
-            selectedPrefab = enemySmallPrefab;
-        else // 10% EnemyBig
-            selectedPrefab = enemyBigPrefab;
+        if (diceRoll < 40) selectedPrefab = weakPrefab;       // 40%
+        else if (diceRoll < 60) selectedPrefab = mediumPrefab; // 20%
+        else if (diceRoll < 70) selectedPrefab = strongPrefab; // 10%
+        else if (diceRoll < 90) selectedPrefab = enemySmallPrefab; // 20%
+        else selectedPrefab = enemyBigPrefab;                  // 10%
 
         if (selectedPrefab != null)
         {
             Instantiate(selectedPrefab, spawnPoint.position, Quaternion.identity);
-            Debug.Log($"Spawned {selectedPrefab.name} at {spawnPoint.position}");
         }
     }
 }
