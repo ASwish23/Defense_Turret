@@ -1,122 +1,137 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
-    [Header("Referinte Tureta")]
-    public Turret turret;               // Referinta la SCRIPTUL turetei din scena
-    public GameObject currentTurretGO;  // Referinta la OBIECTUL turetei din scena
-    public GameObject upgradedTurretPrefab; // Prefab-ul turetei noi (cea cu 2 tevi)
+    [Header("References")]
+    public Turret standardTurret;      // Tureta de Nivel 1
+    public TurretV2 rocketTurret;      // Tureta de Nivel 2 (V2)
 
-    [Header("Referinte UI Butoane")]
-    public Button damageButton;
-    public Button fireRateButton;
-    public Button rangeButton;
-    public Button rocketButton;
-
-    [Header("Upgrade Costs")]
+    [Header("Costs")]
     public int damageCost = 50;
-    public int fireRateCost = 75;
+    public int speedCost = 75;
     public int rangeCost = 100;
     public int rocketUnlockCost = 500;
 
-    private bool upgradeAlreadyDone = false; // Flag ca sa stim daca am cumparat deja
+    [Header("UI Buttons Text")]
+    // (Optional) Aici tragi textele de pe butoane ca sa actualizezi pretul vizual
+    public TextMeshProUGUI damageCostText;
+    public TextMeshProUGUI speedCostText;
+    public TextMeshProUGUI rangeCostText;
 
-    void Update()
+    // --- FUNCTII PENTRU UPGRADE ---
+
+    public void PurchaseDamageUpgrade()
     {
-        if (LevelManager.instance != null && turret != null)
+        if (LevelManager.instance.currentCurrency >= damageCost)
         {
-            int baniDisponibili = LevelManager.instance.currentCurrency;
+            LevelManager.instance.SpendCurrency(damageCost);
 
-            // Upgrade-uri normale
-            if (damageButton != null) damageButton.interactable = (baniDisponibili >= damageCost);
-            if (fireRateButton != null) fireRateButton.interactable = (baniDisponibili >= fireRateCost);
-            if (rangeButton != null) rangeButton.interactable = (baniDisponibili >= rangeCost);
-
-            // Logica Buton Rachete
-            if (rocketButton != null)
+            // Verificam care tureta e activa
+            if (rocketTurret != null && rocketTurret.gameObject.activeInHierarchy)
             {
-                TextMeshProUGUI btnText = rocketButton.GetComponentInChildren<TextMeshProUGUI>();
-
-                if (upgradeAlreadyDone)
-                {
-                    rocketButton.interactable = false;
-                    if (btnText != null) btnText.text = "MAX LEVEL";
-                }
-                else
-                {
-                    // Afisam textul dorit de tine
-                    if (btnText != null) btnText.text = "Unlock Rocket (" + rocketUnlockCost + "$)";
-
-                    // Se activeaza doar la 500 credits
-                    rocketButton.interactable = (baniDisponibili >= rocketUnlockCost);
-                }
+                // Upgrade pentru V2
+                rocketTurret.turretDamage += 1;
+                Debug.Log("V2 Damage Upgraded!");
             }
-        }
-    }
-
-    public void BuyDamageUpgrade()
-    {
-        if (LevelManager.instance.SpendCurrency(damageCost))
-        {
-            turret.turretDamage += 1;
-            damageCost += 25;
-        }
-    }
-
-    public void BuyFireRateUpgrade()
-    {
-        if (LevelManager.instance.SpendCurrency(fireRateCost))
-        {
-            turret.fireRate += 0.5f;
-            fireRateCost += 50;
-        }
-    }
-
-    public void BuyRangeUpgrade()
-    {
-        if (LevelManager.instance.SpendCurrency(rangeCost))
-        {
-            turret.range += 2f;
-            rangeCost += 30;
-        }
-    }
-
-    public void BuyRocketLauncher()
-    {
-        if (!upgradeAlreadyDone && upgradedTurretPrefab != null && LevelManager.instance.SpendCurrency(rocketUnlockCost))
-        {
-            // 1. Salvăm datele de la vechea turetă (cea a colegului)
-            int savedDmg = turret.turretDamage;
-            float savedFR = turret.fireRate;
-            float savedRng = turret.range;
-
-            Vector3 pos = currentTurretGO.transform.position;
-            Quaternion rot = currentTurretGO.transform.rotation;
-
-            // 2. Distrugem tureta veche
-            Destroy(currentTurretGO);
-
-            // 3. Spawnam noua turetă (a TA)
-            GameObject newTurret = Instantiate(upgradedTurretPrefab, pos, rot);
-            newTurret.tag = "Turret"; // Important pentru inamici!
-
-            // 4. ACTUALIZARE REFERINȚE:
-            currentTurretGO = newTurret;
-
-            // Căutăm noul tău script pe obiectul spawnat
-            TurretV2 myNewTurretScript = newTurret.GetComponent<TurretV2>();
-
-            if (myNewTurretScript != null)
+            else
             {
-                myNewTurretScript.turretDamage = savedDmg + 2; // Bonus de upgrade
-                myNewTurretScript.fireRate = savedFR + 0.5f;
-                myNewTurretScript.range = savedRng;
-                myNewTurretScript.hasRockets = true;
+                // Upgrade pentru V1
+                standardTurret.turretDamage += 1;
+                Debug.Log("V1 Damage Upgraded!");
             }
 
-            upgradeAlreadyDone = true;
+            // Optional: Creste pretul pentru urmatorul upgrade
+            // damageCost += 25; 
+            // UpdateUI();
+        }
+        else
+        {
+            Debug.Log("Nu ai bani de Damage!");
         }
     }
+
+    public void PurchaseSpeedUpgrade()
+    {
+        if (LevelManager.instance.currentCurrency >= speedCost)
+        {
+            LevelManager.instance.SpendCurrency(speedCost);
+
+            if (rocketTurret != null && rocketTurret.gameObject.activeInHierarchy)
+            {
+                // V2 trage mai repede (FireRate creste)
+                rocketTurret.fireRate += 0.2f;
+            }
+            else
+            {
+                // V1 trage mai repede
+                standardTurret.fireRate += 0.2f;
+            }
+        }
+        else
+        {
+            Debug.Log("Nu ai bani de Viteza!");
+        }
+    }
+
+    public void PurchaseRangeUpgrade()
+    {
+        if (LevelManager.instance.currentCurrency >= rangeCost)
+        {
+            LevelManager.instance.SpendCurrency(rangeCost);
+
+            if (rocketTurret != null && rocketTurret.gameObject.activeInHierarchy)
+            {
+                rocketTurret.range += 1f;
+            }
+            else
+            {
+                standardTurret.range += 1f;
+            }
+        }
+        else
+        {
+            Debug.Log("Nu ai bani de Range!");
+        }
+    }
+
+    public void UnlockRockets()
+    {
+        // Aceasta functie face tranzitia de la V1 la V2
+        if (LevelManager.instance.currentCurrency >= rocketUnlockCost)
+        {
+            // Verificam daca nu cumva avem deja rachetele
+            if (rocketTurret.gameObject.activeInHierarchy)
+            {
+                Debug.Log("Ai deja rachetele!");
+                return;
+            }
+
+            LevelManager.instance.SpendCurrency(rocketUnlockCost);
+
+            // OPRIM Tureta 1
+            standardTurret.gameObject.SetActive(false);
+
+            // PORNIM Tureta 2
+            rocketTurret.gameObject.SetActive(true);
+
+            // BONUS: Putem transfera stats-urile de la Tureta 1 la Tureta 2 
+            // ca sa nu o iei de la zero (OPTIONAL)
+            rocketTurret.turretDamage = standardTurret.turretDamage + 1; // +1 bonus
+            rocketTurret.fireRate = standardTurret.fireRate;
+            rocketTurret.range = standardTurret.range;
+
+            Debug.Log("ROCKETS UNLOCKED!");
+        }
+        else
+        {
+            Debug.Log("Nu ai 500$ pentru rachete!");
+        }
+    }
+
+    /* void UpdateUI() {
+       if(damageCostText != null) damageCostText.text = "Upgrade Damage (" + damageCost + "$)";
+       // etc...
+    }
+    */
 }
